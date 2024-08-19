@@ -48,6 +48,7 @@ def get_script_version_from_github():
 def check_for_updates():
     latest_version = get_script_version_from_github()
     if latest_version is None:
+        print("[ПОЛЕЖАКА ХУЕСОС]")
         print("[PyBlum] | Проверка обновлений не удалась.")
         return
     
