@@ -86,6 +86,7 @@ def check_script_version():
     if latest_version is not None:
         if latest_version == CURRENT_VERSION:
             print(f"[{Fore.LIGHTMAGENTA_EX}PyBlum{Style.RESET_ALL}] | Версия скрипта актуальна.")
+            print("пенис")
         else:
             check_for_updates()
     else:
