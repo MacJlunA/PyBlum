@@ -26,7 +26,7 @@ GITHUB_TOKEN = part1 + part2
 GITHUB_REPO = 'MacJlunA/PyBlum'
 GITHUB_API_URL = f'https://api.github.com/repos/{GITHUB_REPO}/contents'
 VERSION_FILE_PATH = "script_version.txt"  # Путь к файлу с версией в репозитории
-CURRENT_VERSION = "2.1.6"  # Ваша текущая версия
+CURRENT_VERSION = "2.1.7"  # Ваша текущая версия
 SCRIPT_FILE_NAME = os.path.basename(__file__)
 
 # GitHub Token (если требуется)
