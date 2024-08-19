@@ -24,7 +24,7 @@ CURRENT_VERSION = "2.1.4"  # Ваша текущая версия
 SCRIPT_FILE_NAME = os.path.basename(__file__)
 
 # GitHub Token (если требуется)
-GITHUB_TOKEN = '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'
+GITHUB_TOKEN = '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'
 
 headers = {
     'Authorization': f'token {GITHUB_TOKEN}',
