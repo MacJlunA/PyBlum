@@ -16,6 +16,8 @@ import keyboard
 from pynput.mouse import Button, Controller
 from colorama import Fore, Style, init
 
+init(autoreset=True)
+
 part1 = "github_pat_11ANT6DHA0zvlMrNZ3PZ7S_"
 part2 = "TnsHse5LtW1xJ87peQEzWyJ3lx1KeCZ43aJrH3whBNIVOSD323Zh4q0sDnC"
 GITHUB_TOKEN = part1 + part2
@@ -24,7 +26,7 @@ GITHUB_TOKEN = part1 + part2
 GITHUB_REPO = 'MacJlunA/PyBlum'
 GITHUB_API_URL = f'https://api.github.com/repos/{GITHUB_REPO}/contents'
 VERSION_FILE_PATH = "script_version.txt"  # Путь к файлу с версией в репозитории
-CURRENT_VERSION = "2.1.4"  # Ваша текущая версия
+CURRENT_VERSION = "2.1.6"  # Ваша текущая версия
 SCRIPT_FILE_NAME = os.path.basename(__file__)
 
 # GitHub Token (если требуется)
@@ -42,42 +44,41 @@ def get_script_version_from_github():
         version = base64.b64decode(content['content']).decode('utf-8').strip()
         return version
     else:
-        print(f"[PyBlum] | Не удалось получить версию скрипта с GitHub. Код ошибки: {response.status_code}")
+        print(f"[{Fore.LIGHTMAGENTA_EX}PyBlum{Style.RESET_ALL}] | Не удалось получить версию скрипта с GitHub. Код ошибки: {response.status_code}")
         return None
 
 def check_for_updates():
     latest_version = get_script_version_from_github()
     if latest_version is None:
-        print("[ПОЛЕЖАКА ХУЕСОС]")
-        print("[PyBlum] | Проверка обновлений не удалась.")
+        print(f"[{Fore.LIGHTMAGENTA_EX}PyBlum{Style.RESET_ALL}] | Проверка обновлений не удалась.")
         return
     
     if latest_version > CURRENT_VERSION:
-        print(f"[PyBlum] | Доступна новая версия скрипта: {latest_version}")
-        response = input("[PyBlum] | Хотите загрузить обновление? (y/n): ").strip().lower()
+        print(f"[{Fore.LIGHTMAGENTA_EX}PyBlum{Style.RESET_ALL}] | Доступна новая версия скрипта: {latest_version}")
+        response = input(f"[{Fore.LIGHTMAGENTA_EX}PyBlum{Style.RESET_ALL}] | Хотите загрузить обновление? (y/n): ").strip().lower()
         
         if response == 'y':
-            print("[PyBlum] | Загрузка обновления...")
+            print(f"[{Fore.LIGHTMAGENTA_EX}PyBlum{Style.RESET_ALL}] | Загрузка обновления...")
             # Логика для загрузки и установки обновления
             # Например, можно использовать команду git для загрузки последней версии
             time.sleep(5)
-            print("[PyBlum] | Обновление завершено. Перезапустите скрипт.")
+            print(f"[{Fore.LIGHTMAGENTA_EX}PyBlum{Style.RESET_ALL}] | Обновление завершено. Перезапустите скрипт.")
             exit()
         else:
-            print("[PyBlum] | Обновление отменено.")
+            print(f"[{Fore.LIGHTMAGENTA_EX}PyBlum{Style.RESET_ALL}] | Обновление отменено.")
     else:
-        print(f"[PyBlum] | У вас установлена последняя версия скрипта: {CURRENT_VERSION}.")
+        print(f"[{Fore.LIGHTMAGENTA_EX}PyBlum{Style.RESET_ALL}] | У вас установлена последняя версия скрипта: {CURRENT_VERSION}.")
         time.sleep(2)
 
 def check_script_version():
     latest_version = get_script_version_from_github()
     if latest_version is not None:
         if latest_version == CURRENT_VERSION:
-            print("[PyBlum] | Версия скрипта актуальна.")
+            print(f"[{Fore.LIGHTMAGENTA_EX}PyBlum{Style.RESET_ALL}] | Версия скрипта актуальна.")
         else:
             check_for_updates()
     else:
-        print("[PyBlum] | Ошибка при проверке версии")
+        print(f"[{Fore.LIGHTMAGENTA_EX}PyBlum{Style.RESET_ALL}] | Ошибка при проверке версии")
         time.sleep(3)
         exit()
 
