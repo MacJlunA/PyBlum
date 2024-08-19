@@ -21,12 +21,11 @@ init(autoreset=True)
 part1 = "github_pat_11ANT6DHA0zvlMrNZ3PZ7S_"
 part2 = "TnsHse5LtW1xJ87peQEzWyJ3lx1KeCZ43aJrH3whBNIVOSD323Zh4q0sDnC"
 GITHUB_TOKEN = part1 + part2
-
-
+SCRIPT_URL = "https://raw.githubusercontent.com/MacJlunA/PyBlum/main/PB%20AU%20NEW%20RU.py"
 GITHUB_REPO = 'MacJlunA/PyBlum'
 GITHUB_API_URL = f'https://api.github.com/repos/{GITHUB_REPO}/contents'
 VERSION_FILE_PATH = "script_version.txt"  # Путь к файлу с версией в репозитории
-CURRENT_VERSION = "2.1.7"  # Ваша текущая версия
+CURRENT_VERSION = "2.1.4"  # Ваша текущая версия
 SCRIPT_FILE_NAME = os.path.basename(__file__)
 
 # GitHub Token (если требуется)
@@ -47,10 +46,26 @@ def get_script_version_from_github():
         print(f"[{Fore.LIGHTMAGENTA_EX}PyBlum{Style.RESET_ALL}] | Не удалось получить версию скрипта с GitHub. Код ошибки: {response.status_code}")
         return None
 
+def download_and_replace_script():
+    response = requests.get(SCRIPT_URL)
+    if response.status_code == 200:
+        # Сохраняем новый скрипт с временным именем
+        temp_file_path = "temp_script.py"
+        with open(temp_file_path, 'wb') as file:
+            file.write(response.content)
+        
+        # Заменяем текущий скрипт новым
+        os.replace(temp_file_path, os.path.basename(__file__))
+        print(f"[{Fore.LIGHTMAGENTA_EX}PyBlum{Style.RESET_ALL}] | Скрипт обновлен. Перезапустите его для применения изменений.")
+        time.sleep(5)
+        exit()
+    else:
+        print(f"[{Fore.RED}PyBlum{Style.RESET_ALL}] | Ошибка при загрузке обновления. Код ошибки: {response.status_code}")
+
 def check_for_updates():
     latest_version = get_script_version_from_github()
     if latest_version is None:
-        print(f"[{Fore.LIGHTMAGENTA_EX}PyBlum{Style.RESET_ALL}] | Проверка обновлений не удалась.")
+        print(f"[{Fore.RED}PyBlum{Style.RESET_ALL}] | Проверка обновлений не удалась.")
         return
     
     if latest_version > CURRENT_VERSION:
@@ -59,11 +74,7 @@ def check_for_updates():
         
         if response == 'y':
             print(f"[{Fore.LIGHTMAGENTA_EX}PyBlum{Style.RESET_ALL}] | Загрузка обновления...")
-            # Логика для загрузки и установки обновления
-            # Например, можно использовать команду git для загрузки последней версии
-            time.sleep(5)
-            print(f"[{Fore.LIGHTMAGENTA_EX}PyBlum{Style.RESET_ALL}] | Обновление завершено. Перезапустите скрипт.")
-            exit()
+            download_and_replace_script()
         else:
             print(f"[{Fore.LIGHTMAGENTA_EX}PyBlum{Style.RESET_ALL}] | Обновление отменено.")
     else:
@@ -78,7 +89,7 @@ def check_script_version():
         else:
             check_for_updates()
     else:
-        print(f"[{Fore.LIGHTMAGENTA_EX}PyBlum{Style.RESET_ALL}] | Ошибка при проверке версии")
+        print(f"[{Fore.RED}PyBlum{Style.RESET_ALL}] | Ошибка при проверке версии")
         time.sleep(3)
         exit()
 
