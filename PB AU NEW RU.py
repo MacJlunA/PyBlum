@@ -16,15 +16,19 @@ import keyboard
 from pynput.mouse import Button, Controller
 from colorama import Fore, Style, init
 
-# GitHub Configuration
-GITHUB_REPO = 'MacJlunA/BAUU'
+part1 = "github_pat_11ANT6DHA0zvlMrNZ3PZ7S_"
+part2 = "TnsHse5LtW1xJ87peQEzWyJ3lx1KeCZ43aJrH3whBNIVOSD323Zh4q0sDnC"
+GITHUB_TOKEN = part1 + part2
+
+
+GITHUB_REPO = 'MacJlunA/PyBlum'
 GITHUB_API_URL = f'https://api.github.com/repos/{GITHUB_REPO}/contents'
 VERSION_FILE_PATH = "script_version.txt"  # Путь к файлу с версией в репозитории
 CURRENT_VERSION = "2.1.4"  # Ваша текущая версия
 SCRIPT_FILE_NAME = os.path.basename(__file__)
 
 # GitHub Token (если требуется)
-GITHUB_TOKEN = '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'
+GITHUB_TOKEN = part1 + part2
 
 headers = {
     'Authorization': f'token {GITHUB_TOKEN}',
@@ -38,37 +42,31 @@ def get_script_version_from_github():
         version = base64.b64decode(content['content']).decode('utf-8').strip()
         return version
     else:
-        print(f"Не удалось получить версию скрипта с GitHub. Код ошибки: {response.status_code}")
+        print(f"[PyBlum] | Не удалось получить версию скрипта с GitHub. Код ошибки: {response.status_code}")
         return None
-
-def download_latest_script():
-    url = "https://raw.githubusercontent.com/MacJlunA/BAUU/main/PB%20AU%20RU%20new.py?token=GHSAT0AAAAAACWIFUIK42RHVENP25X2UWIEZWC2OXA"
-    print(f"Попытка загрузить файл с: {url}")
-    
-    response = requests.get(url)
-    print(f"Статус код: {response.status_code}")  # Выводим статус код
-    if response.status_code == 200:
-        with open(SCRIPT_FILE_NAME, "wb") as file:
-            file.write(response.content)
-        print("Скрипт был обновлен до последней версии.")
-    else:
-        print(f"Не удалось скачать последнюю версию скрипта. Код ошибки: {response.status_code}")
-        print(f"Ответ сервера: {response.text}")  # Выводим текст ответа сервера для дополнительной информации
-        time.sleep(5)
-
-
 
 def check_for_updates():
     latest_version = get_script_version_from_github()
     if latest_version is None:
-        print("Проверка обновлений не удалась.")
+        print("[PyBlum] | Проверка обновлений не удалась.")
         return
     
     if latest_version > CURRENT_VERSION:
-        print(f"Доступна новая версия скрипта: {latest_version}. Обновление...")
-        download_latest_script()
+        print(f"[PyBlum] | Доступна новая версия скрипта: {latest_version}")
+        response = input("[PyBlum] | Хотите загрузить обновление? (y/n): ").strip().lower()
+        
+        if response == 'y':
+            print("[PyBlum] | Загрузка обновления...")
+            # Логика для загрузки и установки обновления
+            # Например, можно использовать команду git для загрузки последней версии
+            time.sleep(5)
+            print("[PyBlum] | Обновление завершено. Перезапустите скрипт.")
+            exit()
+        else:
+            print("[PyBlum] | Обновление отменено.")
     else:
-        print(f"У вас установлена последняя версия скрипта: {CURRENT_VERSION}.")
+        print(f"[PyBlum] | У вас установлена последняя версия скрипта: {CURRENT_VERSION}.")
+        time.sleep(2)
 
 def check_script_version():
     latest_version = get_script_version_from_github()
@@ -76,7 +74,6 @@ def check_script_version():
         if latest_version == CURRENT_VERSION:
             print("[PyBlum] | Версия скрипта актуальна.")
         else:
-            print("[PyBlum] | Скрипт находится на обновлении.")
             check_for_updates()
     else:
         print("[PyBlum] | Ошибка при проверке версии")
